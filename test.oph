@@ -1,0 +1,47 @@
+.include "Ophis-2.1/platform/c64_0.oph"
+.include "Ophis-2.1/platform/c64kernal.oph"
+.outfile "clock.prg"
+
+.data zp
+.space _na 1
+.space _nx 1
+.space _ny 1
+
+.text
+*       jsr rdtim
+        stx _nx
+        sty _ny
+
+        jsr printbyte
+        jsr printspace
+
+        lda _nx
+        jsr printbyte
+        jsr printspace
+
+        lda _ny
+        jsr printbyte
+
+        lda #13
+        jsr chrout
+
+        jmp -
+
+printbyte: ldx #7
+        sta _na
+*       lda #$30
+        asl _na
+        bcc +
+        adc #0
+*       jsr chrout
+        dex
+        bne --
+        rts
+
+printspace: lda #$20
+        jsr chrout
+        rts
+
+.checkpc $A000
+.data
+.checkpc $D000
